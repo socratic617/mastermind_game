@@ -1,0 +1,46 @@
+*{
+  box-sizing:border-box
+}
+
+body {
+   font-family: Verdana, Geneva, Tahoma, sans-serif; 
+}
+
+#gameContainer{
+  margin: 5% auto;
+  width: 35%;
+  padding: 1.2rem;
+  text-align: center;
+  background: #5e13b3(43, 100%, 45%, 0.9);
+  border-radius: 20px;
+  border: 15px ridge rgb(176, 109, 176);
+  border-radius: 8px;
+}
+
+h1, h2{
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  text-decoration: underline;
+}
+
+input {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+img{
+  height: 5rem;
+  width: 5rem;
+  margin-top: 2rem;
+  text-align: center;
+}
+
+button{
+  border: 1px solid #5e13b3;
+  background: rgb(176, 109, 176);
+  padding: 1rem 2rem;
+  border-radius: .2rem;
+  font-weight: 700;
+  margin-top: 1rem;
+}
