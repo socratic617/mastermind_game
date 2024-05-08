@@ -195,10 +195,13 @@ class CodeMaker {
     // } catch (err) {
     //   console.error(err);
     // }
-    this.secretCode = [ 1, 2, 3, 4];
+    this.secretCode = [ 1, 2, 2, 4];
   }
 
+  // Return the secret code 
   getSecretCode() {
+    console.log('inside getSecretCode :')
+    console.log(this.secretCode)
     return this.secretCode;
   }
 
@@ -261,6 +264,7 @@ test all methods in CodeMaker
 //Calling my method from my CodeMaker class and test if i am getting the newly generated random numbers from the API
 let codemaker = new CodeMaker();
 codemaker.generateSecretCode();
+codemaker.getSecretCode()
 
 /* ******************************************************************************
 * END TEST: Class CodeMaker
