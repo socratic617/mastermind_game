@@ -167,48 +167,36 @@ class CodeMaker {
   constructor() {
     this.secretCode = [];
   }
-
-  //USING RANDOM.ORG to generate random numbers from 0 to 7 
-
-  // Function to generate 4 random numbers from 0 to 7 using RANDOM.ORG's Integer Generator API
+  // Async function to generate 4 random numbers from 0 to 7 using RANDOM.ORG's Integer Generator API
+  /**EDGE CASE: Limitation on how many times you can hit the API before it meets daily limit. *alternative when it meets limit: have a default to choose a random option using math.random and an array of random 4 digit secret codes for computer secret code for the game 
+  */
   async generateSecretCode() {
     console.log("I am inside  generateSecretCode() ")
     const urlRandomNumGenerator = "https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new";
 
-    const getMethod = {
-      method: "GET"
-    };
 
-    // await fetch(urlRandomNumGenerator, getMethod)// go get api
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     console.log("Inside fetch and here is the data aka random number : ")
-    //     console.log(data);
-    //   })
-    // } catch(error) {
-    //   console.error(error);
+    //API BROKEN : so commenting this out for now and hardcoding the secret code for now to work on feedback logic 
+
+    // try {
+    //   console.log("1:")
+    //   const response = await fetch(urlRandomNumGenerator) // go get api
+    //   const responseText = await response.text();
+    //   console.log(responseText)
+
+    //   // Trim the extra whitsepace/new lines then Split the responseText by '\n' to get an array of strings
+    //   const numbersArray = responseText.trim().split('\n')
+    //   console.log("numbersArray string format:")
+    //   console.log(numbersArray)
+
+    //   // Convert array of strings to array of numbers
+    //   const computerSecretCode = numbersArray.map(Number)
+    //   console.log(" computer secret code number format:")
+    //   console.log(computerSecretCode) 
+    // } catch (err) {
+    //   console.error(err);
     // }
-
-    try {
-      console.log("1:")
-      const response = await fetch(urlRandomNumGenerator)// go get api
-      console.log("2:\n12\n34")
-      const responseText = await response.text();
-      console.log(responseText.split('\\n'))
-
-
-      const computerSecretCode = '' /*await response.json(); -> i cant use response.json()  bc the api is sending *the information not in the right format i need to be able to use response.json bc it prints out as *"6\n4\n1\n5\n"
-      * the special reserved word "/n" means new line 
-      *Goal:  i need to learn how to remove "n/" or escape it to be able to recieve the information how i want */
-
-
-      console.log(" computer secret code:")
-      console.log(computerSecretCode)
-    } catch (err) {
-      console.error(err);
-    }
+    this.secretCode = [ 1, 2, 3, 4];
   }
-
 
   getSecretCode() {
     return this.secretCode;
