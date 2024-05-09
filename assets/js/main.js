@@ -88,8 +88,8 @@ class DecoderBoard {
   }
 
   /*Goal: updates the feedback slot on the board
-  * @params guess keeps track of guess
-  * @params guessRow keeps track of the row the guess is being made on
+  * @params feedback keeps track of feedback
+  * @params feedbackRow keeps track of the row the feedback row is being made on
   * */
   addCodemakerFeedback(feedback, feedbackRow) {
     console.log("Inside CodemakerFeedback()");
@@ -205,9 +205,64 @@ class CodeMaker {
     return this.secretCode;
   }
 
-  // Place the black, white, or no pegs in the feedback slots after every guess by codebreaker
-  generateFeedback() {
+  /*Goal: updates the feedback slot w/ black, white, or no pegs 
+  * @params codebreakerGuess keeps track of guess made by the codebreaker
+  * @params feedbackRow keeps track of the row the guess is being made on
+  * */
+  generateFeedback(codebreakerFourGuesses) {
     console.log("inside generate feedback")
+    
+    // Get secret code 
+    let secretCode = this.secretCode
+
+    //initialize blackPegs
+    let feedbackOne = {blackPegs: 0};
+
+    // Count black pegs (correct color(number in this case) and right position)
+    for(let i = 0; i < secretCode.length; i++){
+      if(codebreakerFourGuesses[i] === secretCode[i]){
+        feedbackOne.blackPegs++
+      }
+    }
+
+    // Initialized two hash tables to track the count of each colorNum in the guess and secret code
+    // Covering Edge Case: This approach avoids duplicating the count of black and white pegs and allows dynamic access and update of colorNum counts.
+    let guessHashTable = {}
+    let secretCodeHashTable = {}
+
+    // Populate secret code hash table with counts of each colorNum
+    for (let i = 0; i < secretCode.length; i++) {
+      // Get the color at index i of the secret code
+      const colorNum = secretCode[i];
+
+      // Increment the count for the current colorNum in the secret code hash table
+      // If the colorNum doesn't exist in the hash table, initialize it with a count of 1
+      secretCodeHashTable[colorNum] = (secretCodeHashTable[colorNum] || 0) + 1;
+    }
+
+    // Populate guess hash table with counts of each colorNum
+    for (let i = 0; i < guess.length; i++) {
+      // Get the color at index i of the guess
+      const colorNum = guess[i];
+
+      // Increment the count for the current colorNum in the guess hash table
+      // If the colorNum doesn't exist in the hash table, initialize it with a count of 1
+      guessHashTable[colorNum] = (guessHashTable[colorNum] || 0) + 1;
+    }
+
+    // Initialize counter for white pegs
+    let whitePegs = 0
+
+    // Iterate through the guess to count occurrences of colorNum or number 
+    for (let i = 0; i < guess.length; i++) {
+      const colorNum = guess[i]; // Get the colorNum at the current index of the guess array
+
+      // Check if the color exists in the secret code hash table
+      if (secretCodeHashTable[colorNum] > 0) {
+        secretCodeHashTable[colorNum]--; // Decrement the count of the colorNum in the secret code hash table
+        whitePegs++; // Increment the count of white pegs since the colorNum is present in the secret code
+      }
+    }
   }
 }
 
