@@ -78,7 +78,7 @@ class DecoderBoard {
 
     // Covering edge case: Check if guess has a total of 4 guesses not more or less
 
-    if (this.guessingSlots[guessRow].filter(slot => slot !== null).length !== 4) {// Filter out non-null elements from the guessingSlots array at the specified row
+    if (this.guessingSlots[guessRow].length !== guess.length) {// dynamic because if i add one more row/ guess this will still work
       console.error("Please make sure you have provided exactly 4 guesses to fill in guessingSlots.");
       return null;
     }
@@ -145,7 +145,7 @@ class Round {
     let secret = this.codeMaker.getSecretCode();
     console.log("SECRET: " + secret)
     this.codeBreaker.generateGuess();
-    this.codeMaker.generateFeedback();
+    this.codeMaker.generateFeedback(this.codeBreaker.codebreakerFourGuesses); // Pass the guess made by the codebreaker
 
 
   }
@@ -209,21 +209,34 @@ class CodeMaker {
   * @params codebreakerGuess keeps track of guess made by the codebreaker
   * @params feedbackRow keeps track of the row the guess is being made on
   * */
-  generateFeedback(codebreakerFourGuesses) {
+  generateFeedback(codebreakerFourGuesses, feedbackRow) {
+
+
+    //EDGE CASE: if codebreaker guess = 0 or any number less then codebreakerGuesses or any number greater then the length of the codebreaker guesses 
+
+    if (codebreakerFourGuesses.length == 0 || codebreakerFourGuesses.length !== 4  ) {// Filter out non-null elements from the guessingSlots array at the specified row
+      console.error("Please make sure you have provided exactly 4 guesses to fill in guessingSlots.");
+      return null;
+    }
+
+
     console.log("inside generate feedback")
     
     // Get secret code 
     let secretCode = this.secretCode
+     console.log("Secret Code:", secretCode);
 
-    //initialize blackPegs
+    //initialize black pegs
     let feedbackOne = {blackPegs: 0};
-
-    // Count black pegs (correct color(number in this case) and right position)
+      
+    // Count black pegs (correct color/number and right position)
     for(let i = 0; i < secretCode.length; i++){
       if(codebreakerFourGuesses[i] === secretCode[i]){
         feedbackOne.blackPegs++
       }
     }
+
+    console.log("Feedback after counting black pegs:", feedbackOne);
 
     // Initialized two hash tables to track the count of each colorNum in the guess and secret code
     // Covering Edge Case: This approach avoids duplicating the count of black and white pegs and allows dynamic access and update of colorNum counts.
@@ -232,6 +245,7 @@ class CodeMaker {
 
     // Populate secret code hash table with counts of each colorNum
     for (let i = 0; i < secretCode.length; i++) {
+
       // Get the color at index i of the secret code
       const colorNum = secretCode[i];
 
@@ -240,22 +254,25 @@ class CodeMaker {
       secretCodeHashTable[colorNum] = (secretCodeHashTable[colorNum] || 0) + 1;
     }
 
+    console.log("Secret Code Hash Table:", secretCodeHashTable);
+
     // Populate guess hash table with counts of each colorNum
-    for (let i = 0; i < guess.length; i++) {
+    for (let i = 0; i < codebreakerFourGuesses.length; i++) {
+
       // Get the color at index i of the guess
-      const colorNum = guess[i];
+      const colorNum = codebreakerFourGuesses[i];
 
       // Increment the count for the current colorNum in the guess hash table
       // If the colorNum doesn't exist in the hash table, initialize it with a count of 1
       guessHashTable[colorNum] = (guessHashTable[colorNum] || 0) + 1;
     }
-
+    console.log("Guess Hash Table:", guessHashTable);
     // Initialize counter for white pegs
     let whitePegs = 0
 
     // Iterate through the guess to count occurrences of colorNum or number 
-    for (let i = 0; i < guess.length; i++) {
-      const colorNum = guess[i]; // Get the colorNum at the current index of the guess array
+    for (let i = 0; i < codebreakerFourGuesses.length; i++) {
+      const colorNum = codebreakerFourGuesses[i]; // Get the colorNum at the current index of the guess array
 
       // Check if the color exists in the secret code hash table
       if (secretCodeHashTable[colorNum] > 0) {
@@ -263,6 +280,26 @@ class CodeMaker {
         whitePegs++; // Increment the count of white pegs since the colorNum is present in the secret code
       }
     }
+    console.log("White Pegs:", whitePegs);
+
+
+    //feedback object
+    let feedback = {
+      blackPegs: feedbackOne.blackPegs,
+      whitePegs: whitePegs
+    };
+
+    console.log("Feedback:", feedback);
+    console.table(feedback)
+   
+
+    //Now you can update the decoder board with the feedback
+    this.decoderBoard.addCodemakerFeedback(feedback, feedbackRow);
+
+    
+
+    return feedback; // Return the feedback object
+
   }
 }
 
@@ -320,6 +357,9 @@ test all methods in CodeMaker
 let codemaker = new CodeMaker();
 codemaker.generateSecretCode();
 codemaker.getSecretCode()
+let codebreakerFourGuesses = [1,2,3,4] // test case 
+let feedbackRow = 1// test case
+codemaker.generateFeedback(codebreakerFourGuesses, feedbackRow)
 
 /* ******************************************************************************
 * END TEST: Class CodeMaker
