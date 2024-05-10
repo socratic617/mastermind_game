@@ -301,33 +301,6 @@ class CodeMaker {
   }
 }
 
-/*
- * Choose a secret code and place it in the Codemaker's secret row.
- * @param colorPegs array: Array of available color pegs
- * @param numsColumns number: Number of columns for the secret code
- * NOTE: Used math.random to generate the random numbers 
-*/
-// generateSecretCode(colorPegs, numsColumns) {
-//   // Testing if I can call this function
-//   console.log("inside generate secret code ")
-//   console.log("numsColumns : " + numsColumns)
-
-//   //Covering edge case: Check if colorPegs array is empty or numsColumns is 0
-//   if (colorPegs.length == 0 || numsColumns == 0 ) {
-//     console.error("Please make sure you have provided options and slots to generate secret code ")
-//     return null
-//   }
-
-//   // This handles if user chooses int or string guesses w/ flexibilty to scale
-//   for (let i = 0; i < numsColumns; i++) {
-//     // console.log("i" + i)
-//     let randomGuess = Math.floor(Math.random() * colorPegs.length) 
-//     this.secretCode.push(colorPegs[randomGuess])
-//     // console.log("randomguess: " + randomGuess)
-//   }
-//   // console.log("secretCode : " + this.secretCode)
-// }
-
 
 
 /* ******************************************************************************* 
