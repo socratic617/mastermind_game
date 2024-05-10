@@ -144,8 +144,9 @@ class Round {
     this.codeMaker.generateSecretCode(this.colorPegs);
     let secret = this.codeMaker.getSecretCode();
     console.log("SECRET: " + secret)
+    let codebreakerFourGuesses = [1,2,3,4]
     this.codeBreaker.generateGuess();
-    this.codeMaker.generateFeedback(this.codeBreaker.codebreakerFourGuesses); // Pass the guess made by the codebreaker
+    this.codeMaker.generateFeedback(codebreakerFourGuesses); // Pass the guess made by the codebreaker
 
 
   }
@@ -159,7 +160,7 @@ class Round {
 class CodeBreaker {
   //Place 4 color pegs to make initial guess
   generateGuess() {
-    console.log("inside generating guess")
+    console.log("CodeBreaker.generateGuess()")
   }
 }
 
@@ -171,7 +172,7 @@ class CodeMaker {
   /**EDGE CASE: Limitation on how many times you can hit the API before it meets daily limit. *alternative when it meets limit: have a default to choose a random option using math.random and an array of random 4 digit secret codes for computer secret code for the game 
   */
   async generateSecretCode() {
-    console.log("I am inside  generateSecretCode() ")
+    console.log("CodeMaker.generateSecretCode()")
     const urlRandomNumGenerator = "https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new";
 
 
@@ -190,6 +191,7 @@ class CodeMaker {
 
     //   // Convert array of strings to array of numbers
     //   const computerSecretCode = numbersArray.map(Number)
+    //   this.secretCode = computerSecretCode //ASSIGNING SECRET CODE TO GENERATED SECRET CODE OF THE API
     //   console.log(" computer secret code number format:")
     //   console.log(computerSecretCode) 
     // } catch (err) {
@@ -200,8 +202,8 @@ class CodeMaker {
 
   // Return the secret code 
   getSecretCode() {
-    console.log('inside getSecretCode :')
-    console.log(this.secretCode)
+    console.log("CodeMaker.getSecretCode()")
+    console.log("Secret Code:" + this.secretCode)
     return this.secretCode;
   }
 
@@ -210,21 +212,17 @@ class CodeMaker {
   * @params feedbackRow keeps track of the row the guess is being made on
   * */
   generateFeedback(codebreakerFourGuesses, feedbackRow) {
+    console.log(`CodeMaker.generateFeedback(${codebreakerFourGuesses} , ${feedbackRow})`)
 
-
-    //EDGE CASE: if codebreaker guess = 0 or any number less then codebreakerGuesses or any number greater then the length of the codebreaker guesses 
-
-    if (codebreakerFourGuesses.length == 0 || codebreakerFourGuesses.length !== 4  ) {// Filter out non-null elements from the guessingSlots array at the specified row
+    //EDGE CASE: if codebreaker guess = 0 or any number less then codebreakerGuesses or any number greater then the length of the codebreaker guesses. Filter out non-null elements from the guessingSlots array at the specified row
+    if (codebreakerFourGuesses.length == this.secretCode.length ) {
       console.error("Please make sure you have provided exactly 4 guesses to fill in guessingSlots.");
       return null;
     }
-
-
-    console.log("inside generate feedback")
     
     // Get secret code 
     let secretCode = this.secretCode
-     console.log("Secret Code:", secretCode);
+    console.log("Secret Code:", secretCode);
 
     //initialize black pegs
     let feedbackOne = {blackPegs: 0};
@@ -387,10 +385,3 @@ decoderBoard.addCodemakerFeedback({ blackPegs: 1, whitePegs: 2 }, 1);
 /* ******************************************************************************
 * END TEST: Class DecoderBoard
 ************************************************************************************/
-
-// let codeMaker = new CodeMaker();
-// let codeBreaker = new CodeBreaker();
-// let decoderBoard = new DecoderBoard();
-// let currentRound = new Round(codeBreaker, codeMaker, decoderBoard);
-
-// round.startRound()
