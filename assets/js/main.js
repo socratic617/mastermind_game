@@ -187,13 +187,20 @@ class CodeMaker {
   // Async function to generate 4 random numbers from 0 to 7 using RANDOM.ORG's Integer Generator API
   /**EDGE CASE: Limitation on how many times you can hit the API before it meets daily limit. *alternative when it meets limit: have a default to choose a random option using math.random and an array of random 4 digit secret codes for computer secret code for the game 
   */
-  async generateSecretCode() {
+  async generateSecretCode(numsColumns, min, max) {
     console.log("\n_____________________\nCodeMaker.generateSecretCode()")
-    const urlRandomNumGenerator = "https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new";
+    const urlRandomNumGenerator = `https://www.random.org/integers/?num=${numsColumns}&min=${min}&max=${max}&col=1&base=10&format=plain&rnd=new`;
 
+// ***********WHERE YOU LEFT OFFF**********************
 
-    //API BROKEN : so commenting this out for now and hardcoding the secret code for now to work on feedback logic 
+// dynamic ideas for UI:
+    //more columns, more rows, choose 0-15 etc.., option to choose range like 0-7 ( user could choose own difficulty)
+    // use model from flowbite framework to be able to force user to choose own difficulty Example: num (4), min (0) and max(7) params from ui 
+    // TO DO:
+      // add the hint logic piece to be ready 
+      //console log feedback to user for each guess
 
+//****************************************************** */
     try {
       // console.log("1:")
       const response = await fetch(urlRandomNumGenerator) // go get api
@@ -341,7 +348,7 @@ document.querySelector('#start-game').addEventListener('click', startGameHandler
 * TEST: GAME LOGIC OUTSIDE OF ROUND CLASS (Unit Tests)
 * @param numsColumns, numsRow, guess, guessRow
 ************************************************************************************/
-async function testRoundLogic(numsColumns, numsRow, guess, guessRow){
+async function testRoundLogic(numsColumns, numsRow, guess, guessRow, min, max){
   //Test create your players
   let codemaker = new CodeMaker();
   let codebreaker = new CodeBreaker();
@@ -351,7 +358,7 @@ async function testRoundLogic(numsColumns, numsRow, guess, guessRow){
 
   // Test codemaker selecting a secret code
   // Bug Fix: Covered the issue with timing of getting secret code first then producing the secret to be able to give accurate feedback after by the code maker 
-  await codemaker.generateSecretCode();
+  await codemaker.generateSecretCode(numsColumns, min, max);
 
   //Test codebreaker making a guess + place on board for each row
   // codeBreaker.generateGuess() //TODO FIGURE OUT LOGIC FOR GUESS
@@ -365,11 +372,19 @@ async function testRoundLogic(numsColumns, numsRow, guess, guessRow){
 } 
 
 
-let numsColumns = 4
-let numsRow = 10
+//TESTING LOGIC
 let guess = [1, 2, 2, 1] //TODO secret code not finished generating when this line is ran, refer to logs
 let guessRow = 0
-testRoundLogic(numsColumns, numsRow, guess, guessRow)
+
+//These are params for API template literals passed in generateSecretCode
+let numsColumns = 4
+let min = 0
+let max = 7
+
+
+let numsRow = 10
+
+testRoundLogic(numsColumns, numsRow, guess, guessRow, min, max)
 
 
 // /* ******************************************************************************
