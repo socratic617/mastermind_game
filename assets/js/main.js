@@ -230,7 +230,9 @@ class CodeMaker {
   generateFeedback(codebreakerFourGuesses) {
 
     
-    console.log(`\n_____________________\nCodeMaker.generateFeedback(${codebreakerFourGuesses})`)
+    console.log(`\n\n_____________________\n`)
+    console.log("GUESS : ", codebreakerFourGuesses)
+    console.log("SECRETCODE : ", this.secretCode)
 
     //EDGE CASE: if codebreaker guess = 0 or any number less then codebreakerGuesses or any number greater then the length of the codebreaker guesses. Filter out non-null elements from the guessingSlots array at the specified row
     if (codebreakerFourGuesses.length !== this.secretCode.length ) {
@@ -239,7 +241,7 @@ class CodeMaker {
     }
     
 
-    /* 1) create my hashtable to track my black and white pegs
+/* 1) create my hashtable to track my black and white pegs
 *  2) create my hashtable for secret code to track the number of occurences of each number 
 *  3) Loop through each element in the codebreakerFourGuesses array to check for black pegs
 *       4) compare my element in array of codebreakerFourGuesses to the element in secret code array at index i 
@@ -253,86 +255,214 @@ class CodeMaker {
 *           12) subtract one from the value from that key
 *           13) add one white key peg to my hashtable for white and black pegs
 */
+// NEW VERSION FIXING DUPLICATION
+    let occurences = {};
 
+    // Populate secretCodeOccurrences using a for loop
+    for (let i = 0; i < this.secretCode.length; i++) {
+      let num = this.secretCode[i]; // Retrieve the current number (element) at index i
 
-    // Get secret code 
-    let secretCode = this.secretCode
-    console.log("Secret Code:", secretCode);
-
-    //initialize black pegs
-    let feedbackOne = {blackPegs: 0};
-      
-    // Count black pegs (correct color/number and right position)
-    for(let i = 0; i < secretCode.length; i++){
-      if(codebreakerFourGuesses[i] === secretCode[i]){
-        feedbackOne.blackPegs++
+      if (occurences[num]) {
+        occurences[num]++; // Increment the count for the current number
+      } else {
+        occurences[num] = 1; // Initialize the count for the current number
       }
     }
 
-    console.log("Feedback after counting black pegs:", feedbackOne);
+    console.log("Secret Code Occurences : ", occurences)
+    
+    // // Get secret code 
+    // let secretCode = this.secretCode
+    // console.log("Secret Code:", secretCode);
 
-    // Initialized two hash tables to track the count of each colorNum in the guess and secret code
-    // Covering Edge Case: This approach avoids duplicating the count of black and white pegs and allows dynamic access and update of colorNum counts.
-    let guessHashTable = {}
-    let secretCodeHashTable = {}
-
-    // Populate secret code hash table with counts of each colorNum
-    for (let i = 0; i < secretCode.length; i++) {
-
-      // Get the color at index i of the secret code
-      const colorNum = secretCode[i];
-
-      // Increment the count for the current colorNum in the secret code hash table
-      // If the colorNum doesn't exist in the hash table, initialize it with a count of 1
-      secretCodeHashTable[colorNum] = (secretCodeHashTable[colorNum] || 0) + 1;
-    }
-
-    console.log("Secret Code Hash Table:", secretCodeHashTable);
-
-    // Populate guess hash table with counts of each colorNum
-    for (let i = 0; i < codebreakerFourGuesses.length; i++) {
-
-      // Get the color at index i of the guess
-      const colorNum = codebreakerFourGuesses[i];
-
-      // Increment the count for the current colorNum in the guess hash table
-      // If the colorNum doesn't exist in the hash table, initialize it with a count of 1
-      guessHashTable[colorNum] = (guessHashTable[colorNum] || 0) + 1;
-    }
-    console.log("Guess Hash Table:", guessHashTable);
-    // Initialize counter for white pegs
-    let whitePegs = 0
-
-    // Iterate through the guess to count occurrences of colorNum or number 
-    for (let i = 0; i < codebreakerFourGuesses.length; i++) {
-      const colorNum = codebreakerFourGuesses[i]; // Get the colorNum at the current index of the guess array
-
-      // Check if the color exists in the secret code hash table
-      if (secretCodeHashTable[colorNum] > 0) {
-        secretCodeHashTable[colorNum]--; // Decrement the count of the colorNum in the secret code hash table
-        whitePegs++; // Increment the count of white pegs since the colorNum is present in the secret code
-      }
-    }
-    console.log("White Pegs:", whitePegs);
-
-
-    //feedback object
+    // //Hashtables: 1 to track my black & white pegs, 2nd for secretcode to track number of occurences of each number
     let feedback = {
-      blackPegs: feedbackOne.blackPegs,
-      whitePegs: whitePegs
-    };
+      blackPegs: 0, 
+      whitePegs: 0
+    }
 
-    console.log("Feedback:", feedback);
-    console.table(feedback)
+
+    console.log("FEEDBACK: ", feedback)
    
 
-    // //Now you can update the decoder board with the feedback
-    // this.decoderBoard.addCodemakerFeedback(feedback, feedbackRow);
+    console.log('----------------GET BLACK PEGS-----------')
+
+    // //Loop through each element in the codebreakerFourGuesses array to check for black pegs
+    for (let i = 0; i < codebreakerFourGuesses.length; i++){
+      // compare my element in array of codebreakerFourGuesses to the element in secret code array at index i
+      const guess = codebreakerFourGuesses[i];
+      const secretCodeElement = this.secretCode[i];
+      console.log(`i=${i} guess=${guess} secretCodeElement=${secretCodeElement}`)
+
+      if (guess === secretCodeElement) { // if it is the SAME element at index i 
+        console.log('\tGuess == secretCodeElement')
+        occurences[secretCodeElement]--; // subtract 1 value from the key in secret code hashtable
+        feedback.blackPegs++; // Increment black pegs if correct number and right position
+        codebreakerFourGuesses[i] = null;
+        console.log('\t\toccurences:', occurences)
+        console.log('\t\tfeedback:', feedback)
+        console.log('\t\tcodebreakerFourGuesses:', codebreakerFourGuesses)
+      }
+
+      //if key is equal to zero  delete the key
+      if (occurences[secretCodeElement] == 0){
+        delete occurences[secretCodeElement]
+        console.log('\tDELETE OCCURENCE: ', occurences)
+      }
+    }
+
+    console.log('\n\n_________________________________________')
+    console.log("SECRET CODE: ", this.secretCode)
+    console.log("GUESS: ", codebreakerFourGuesses)
+    console.log("Secret Code Occurences : ", occurences)
+    console.log("FEEDBACK: ", feedback)
+    console.log('\n\n----------------GET WHITE PEGS-----------')
+      // Loop through each element in the codeBreakerFourGuess array to check for white pegs
+    for (let i = 0; i < codebreakerFourGuesses.length; i++){
+      const guess = codebreakerFourGuesses[i];
+      console.log(`i = ${i} guess = ${guess}`)
+      
+      // Check if the guess exists in the secret code and is not already matched with a black peg
+      if (occurences[guess]) {
+        console.log("\tIn conditional:");
+
+        // Subtract one from the value in the secret code hashtable
+        occurences[guess]--;
+      
+        // add one white key peg to my hashtable 
+        feedback.whitePegs++;
+
+        console.log('\t\toccurences:', occurences);
+        console.log('\t\tfeedback:', feedback);
+      }
+    }
+
+    
+    // console.log('\n  (1) End Loop: Checking if black pegs updated : ')
+    // console.table(feedback)
+
+    // console.log('\n  (1) End Loop: Checking guess updated : ')
+    // console.log(codebreakerFourGuesses)
+
+    // console.log('\n \n ------------------------------------------------------------------------- ')
+    // console.log(' (2) Start loop to check white pegs')
+    // // Loop through each element in the codeBreakerFourGuess array to check for white pegs
+    // for (let i = 0; i < codebreakerFourGuesses.length; i++){
+    //   console.log("Before: Secret code occurence :")
+    //   console.log()
+    //   const secretCodeElement = occurencess[i];
+    //   // * 10) compare my element in array of CodebreakerFourGuesses and see if that element exists in my secret code hashtable
+    //   //   * 11) if the element(number) from array  exists in hashtable secretcode and element is not null
+    //   if (codebreakerFourGuesses[i] == secretCodeElement && codebreakerFourGuesses[i] == null  ){
+    //     // 12) subtract one from the value from that key
+    //     occurencess[i]--; 
+    //   
+    //     //   * 13) add one white key peg to my hashtable for white and black pegs
+    //     feedback.whitePegs++;
+    //   }
+    // }
+    // console.log('\n  (2) End Loop: Checking if white pegs updated : ')
+    // console.table(feedback)
+
+    // console.log("After SEcret Code Occurences")
+    // console.log(occurencess)
+
+
+
+
+    //*********************************************************************** */
+
+    // Test case: 
+    // secretcodeArr = [1,1,1,2,3]
+    // secretcodeHash = {1:3, 2:1, 3:1}
+    // fourGuessArr = [0,0,0,2,2]
+
+    // // ==
+    // secretcodeHash = { 1: 3, 2: 0, 3: 1 }
+    // fourGuessArr = [0, 0, 0, null, 2]
+
+    // the key 2 in secretcodeHash
+    //   increase white peg
+
+// OLD VERSION CAUSING DUPLICATION 
+    // Get secret code 
+    // let secretCode = this.secretCode
+    // console.log("Secret Code:", secretCode);
+
+    // //initialize black pegs
+    // let feedbackOne = {blackPegs: 0};
+      
+    // // Count black pegs (correct color/number and right position)
+    // for(let i = 0; i < secretCode.length; i++){
+    //   if(codebreakerFourGuesses[i] === secretCode[i]){
+    //     feedbackOne.blackPegs++
+    //   }
+    // }
+
+    // console.log("Feedback after counting black pegs:", feedbackOne);
+
+    // // Initialized two hash tables to track the count of each colorNum in the guess and secret code
+    // // Covering Edge Case: This approach avoids duplicating the count of black and white pegs and allows dynamic access and update of colorNum counts.
+    // let guessHashTable = {}
+    // let secretCodeHashTable = {}
+
+    // // Populate secret code hash table with counts of each colorNum
+    // for (let i = 0; i < secretCode.length; i++) {
+
+    //   // Get the color at index i of the secret code
+    //   const colorNum = secretCode[i];
+
+    //   // Increment the count for the current colorNum in the secret code hash table
+    //   // If the colorNum doesn't exist in the hash table, initialize it with a count of 1
+    //   secretCodeHashTable[colorNum] = (secretCodeHashTable[colorNum] || 0) + 1;
+    // }
+
+    // console.log("Secret Code Hash Table:", secretCodeHashTable);
+
+    // // Populate guess hash table with counts of each colorNum
+    // for (let i = 0; i < codebreakerFourGuesses.length; i++) {
+
+    //   // Get the color at index i of the guess
+    //   const colorNum = codebreakerFourGuesses[i];
+
+    //   // Increment the count for the current colorNum in the guess hash table
+    //   // If the colorNum doesn't exist in the hash table, initialize it with a count of 1
+    //   guessHashTable[colorNum] = (guessHashTable[colorNum] || 0) + 1;
+    // }
+    // console.log("Guess Hash Table:", guessHashTable);
+    // // Initialize counter for white pegs
+    // let whitePegs = 0
+
+    // // Iterate through the guess to count occurrences of colorNum or number 
+    // for (let i = 0; i < codebreakerFourGuesses.length; i++) {
+    //   const colorNum = codebreakerFourGuesses[i]; // Get the colorNum at the current index of the guess array
+
+    //   // Check if the color exists in the secret code hash table
+    //   if (secretCodeHashTable[colorNum] > 0) {
+    //     secretCodeHashTable[colorNum]--; // Decrement the count of the colorNum in the secret code hash table
+    //     whitePegs++; // Increment the count of white pegs since the colorNum is present in the secret code
+    //   }
+    // }
+    // console.log("White Pegs:", whitePegs);
+
+
+    // //feedback object
+    // let feedback = {
+    //   blackPegs: feedbackOne.blackPegs,
+    //   whitePegs: whitePegs
+    // };
+
+    // console.log("Feedback:", feedback);
+    // console.table(feedback)
+   
+
+    // // //Now you can update the decoder board with the feedback
+    // // this.decoderBoard.addCodemakerFeedback(feedback, feedbackRow);
 
     
 
-    return feedback; // Return the feedback object
-
+    // return feedback; // Return the feedback object
+    return feedback;
   }
 }
 
@@ -379,12 +509,12 @@ async function testRoundLogic(numsColumns, numsRow, guess, guessRow){
   let codebreakerFourGuesses = decoderBoard.getGuessingSlotRow(guessRow)
   let feedback = codemaker.generateFeedback(codebreakerFourGuesses)
   // decoderBoard.addCodemakerFeedback(feedback);
-}
+} 
 
 
 let numsColumns = 4
 let numsRow = 10
-let guess = [1, 2, 3, 4] //TODO secret code not finished generating when this line is ran, refer to logs
+let guess = [1, 2, 2, 1] //TODO secret code not finished generating when this line is ran, refer to logs
 let guessRow = 0
 testRoundLogic(numsColumns, numsRow, guess, guessRow)
 
