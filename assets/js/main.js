@@ -90,30 +90,29 @@ class DecoderBoard {
     this.guessingSlots = [];
     this.feedbackSlots = [];
 
-    this.setBoard(numsColumns, numsRow);// you use this.setBoard bc your calling your method to be able to be accessed
+    // you use this.setBoard bc your calling your method to be able to be accessed
+    this.setBoard(numsColumns, numsRow);
     console.log("guessingSlots: ");
     console.table(this.guessingSlots);
     console.log("feedbackSlots: ");
     console.table(this.feedbackSlots);
   }
 
-  /*Goal: updates the guess slots on the board 
+  /*Goal: Adds Codebreaker guess to the board 
    * @params guess keeps track of guess
    * @params guessRow keeps track of the row the guess is being made on
    * */
   addCodebreakerGuess(guess, guessRow) {
+    console.log("\n________________________________\nInside addCodebreakerGuess()");
 
-    console.log("\n_____________________\nInside addCodebreakerGuess()");
-
-    // Add the guess to the row
-    this.guessingSlots[guessRow] = guess;
-
-    // Covering edge case: Check if guess has a total of 4 guesses not more or less
-
-    if (this.guessingSlots[guessRow].length !== guess.length) {// dynamic because if i add one more row/guess this will still work
-      console.error("Please make sure you have provided exactly 4 guesses to fill in guessingSlots.");
+    // Validate the guess length
+    if (this.guessingSlots[guessRow].length !== guess.length) {
+      console.error(`Please make sure you have provided exactly ${this.guessingSlots[guessRow].length} guesses to fill in guessing slot.`);
       return null;
     }
+
+    // Updating the guessing slot with the guess
+    this.guessingSlots[guessRow] = guess;
 
     console.log("Update Guessing Slots : ");
     console.table(this.guessingSlots)
@@ -123,9 +122,11 @@ class DecoderBoard {
   * @params feedback keeps track of feedback
   * @params feedbackRow keeps track of the row the feedback row is being made on
   * */
-  addCodemakerFeedback(feedback, feedbackRow) {
-    console.log("Inside CodemakerFeedback()");
-    this.feedbackSlots[feedbackRow] = feedback
+  addCodemakerFeedback(feedback, guessRow) {
+    console.log("\n___________________________________\nInside addCodemakerFeedback()");
+
+    // Updating the feedback to the board
+    this.feedbackSlots[guessRow] = feedback
     console.log("Tests for updating feedBack slots : ");
     console.table(this.feedbackSlots)
   }
@@ -184,23 +185,13 @@ class CodeMaker {
     console.log("Creating CodeMaker player")
     this.secretCode = [];
   }
+
+
   // Async function to generate 4 random numbers from 0 to 7 using RANDOM.ORG's Integer Generator API
-  /**EDGE CASE: Limitation on how many times you can hit the API before it meets daily limit. *alternative when it meets limit: have a default to choose a random option using math.random and an array of random 4 digit secret codes for computer secret code for the game 
-  */
   async generateSecretCode(numsColumns, min, max) {
     console.log("\n_____________________\nCodeMaker.generateSecretCode()")
     const urlRandomNumGenerator = `https://www.random.org/integers/?num=${numsColumns}&min=${min}&max=${max}&col=1&base=10&format=plain&rnd=new`;
 
-// ***********WHERE YOU LEFT OFFF**********************
-
-// dynamic ideas for UI:
-    //more columns, more rows, choose 0-15 etc.., option to choose range like 0-7 ( user could choose own difficulty)
-    // use model from flowbite framework to be able to force user to choose own difficulty Example: num (4), min (0) and max(7) params from ui 
-    // TO DO:
-      // add the hint logic piece to be ready 
-      //console log feedback to user for each guess
-
-//****************************************************** */
     try {
       // console.log("1:")
       const response = await fetch(urlRandomNumGenerator) // go get api
@@ -236,7 +227,6 @@ class CodeMaker {
   * */
   generateFeedback(codebreakerFourGuesses) {
 
-    
     console.log(`\n\n_____________________\n`)
     console.log("GUESS : ", codebreakerFourGuesses)
     console.log("SECRETCODE : ", this.secretCode)
@@ -247,33 +237,38 @@ class CodeMaker {
       return null;
     }
 
+    // Hashtable to track the number of occurrences of each number in the secret code
     let occurences = {};
 
-    // Populate secretCodeOccurrences using a for loop
+    // Populate Secret Code Occurrences using a for loop
     for (let i = 0; i < this.secretCode.length; i++) {
-      let num = this.secretCode[i]; // Retrieve the current number (element) at index i
 
+      // Retrieve the current number (element) at index i
+      let num = this.secretCode[i]; 
       if (occurences[num]) {
-        occurences[num]++; // Increment the count for the current number
+
+        // Increment the count for the current number
+        occurences[num]++; 
       } else {
-        occurences[num] = 1; // Initialize the count for the current number
+
+        // Initialize the count for the current number
+        occurences[num] = 1; 
       }
     }
 
     console.log("Secret Code Occurences : ", occurences)
 
-    // //Hashtables: 1 to track my black & white pegs, 2nd for secretcode to track number of occurences of each number
+    // Hashtable to track my black & white pegs
     let feedback = {
       blackPegs: 0, 
       whitePegs: 0
     }
     console.log("FEEDBACK: ", feedback)
-   
-
     console.log('----------------GET BLACK PEGS-----------')
 
-    // //Loop through each element in the codebreakerFourGuesses array to check for black pegs
+    // Loop through each element in the codebreakerFourGuesses array to check for black pegs
     for (let i = 0; i < codebreakerFourGuesses.length; i++){
+
       // compare my element in array of codebreakerFourGuesses to the element in secret code array at index i
       const guess = codebreakerFourGuesses[i];
       const secretCodeElement = this.secretCode[i];
@@ -321,12 +316,9 @@ class CodeMaker {
         console.log('\t\tfeedback:', feedback);
       }
     }
-
     return feedback;
   }
 }
-
-
 
 /* ******************************************************************************* 
 *Creating Game
@@ -365,10 +357,12 @@ async function testRoundLogic(numsColumns, numsRow, guess, guessRow, min, max){
   console.log('Codebreaker\'s first guess: ' + guess)
   decoderBoard.addCodebreakerGuess(guess, guessRow)
 
+
   //Test codeMaker Feedback for first guess by codeBreaker 
   let codebreakerFourGuesses = decoderBoard.getGuessingSlotRow(guessRow)
   let feedback = codemaker.generateFeedback(codebreakerFourGuesses)
   // decoderBoard.addCodemakerFeedback(feedback);
+  decoderBoard.addCodemakerFeedback(feedback, guessRow)
 } 
 
 
@@ -376,13 +370,13 @@ async function testRoundLogic(numsColumns, numsRow, guess, guessRow, min, max){
 let guess = [1, 2, 2, 1] //TODO secret code not finished generating when this line is ran, refer to logs
 let guessRow = 0
 
+let numsRow = 10
+
 //These are params for API template literals passed in generateSecretCode
 let numsColumns = 4
 let min = 0
 let max = 7
 
-
-let numsRow = 10
 
 testRoundLogic(numsColumns, numsRow, guess, guessRow, min, max)
 
