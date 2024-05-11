@@ -239,23 +239,7 @@ class CodeMaker {
       console.error("Please make sure you have provided exactly 4 guesses to fill in guessingSlots.");
       return null;
     }
-    
 
-/* 1) create my hashtable to track my black and white pegs
-*  2) create my hashtable for secret code to track the number of occurences of each number 
-*  3) Loop through each element in the codebreakerFourGuesses array to check for black pegs
-*       4) compare my element in array of codebreakerFourGuesses to the element in secret code array at index i 
-*         5) if it is the SAME element at index i 
-*           6) subtract value from the key in secret code hashtable
-*           7) remove the same element by replacing/setting the element at index to null in codebreakerFourGuesses array 
-*           8) add one black peg to my hashtable for white and black pegs
-*  9) Loop through each element in the codeBreakerFourGuess array to check for white pegs 
-*       10) compare my element in array of CodebreakerFourGuesses and see if that element exists in my secret code hashtable 
-*         11) if the element (number) from array  exists in hashtable secretcode and element is not null
-*           12) subtract one from the value from that key
-*           13) add one white key peg to my hashtable for white and black pegs
-*/
-// NEW VERSION FIXING DUPLICATION
     let occurences = {};
 
     // Populate secretCodeOccurrences using a for loop
@@ -270,18 +254,12 @@ class CodeMaker {
     }
 
     console.log("Secret Code Occurences : ", occurences)
-    
-    // // Get secret code 
-    // let secretCode = this.secretCode
-    // console.log("Secret Code:", secretCode);
 
     // //Hashtables: 1 to track my black & white pegs, 2nd for secretcode to track number of occurences of each number
     let feedback = {
       blackPegs: 0, 
       whitePegs: 0
     }
-
-
     console.log("FEEDBACK: ", feedback)
    
 
@@ -336,53 +314,6 @@ class CodeMaker {
         console.log('\t\tfeedback:', feedback);
       }
     }
-
-    
-    // console.log('\n  (1) End Loop: Checking if black pegs updated : ')
-    // console.table(feedback)
-
-    // console.log('\n  (1) End Loop: Checking guess updated : ')
-    // console.log(codebreakerFourGuesses)
-
-    // console.log('\n \n ------------------------------------------------------------------------- ')
-    // console.log(' (2) Start loop to check white pegs')
-    // // Loop through each element in the codeBreakerFourGuess array to check for white pegs
-    // for (let i = 0; i < codebreakerFourGuesses.length; i++){
-    //   console.log("Before: Secret code occurence :")
-    //   console.log()
-    //   const secretCodeElement = occurencess[i];
-    //   // * 10) compare my element in array of CodebreakerFourGuesses and see if that element exists in my secret code hashtable
-    //   //   * 11) if the element(number) from array  exists in hashtable secretcode and element is not null
-    //   if (codebreakerFourGuesses[i] == secretCodeElement && codebreakerFourGuesses[i] == null  ){
-    //     // 12) subtract one from the value from that key
-    //     occurencess[i]--; 
-    //   
-    //     //   * 13) add one white key peg to my hashtable for white and black pegs
-    //     feedback.whitePegs++;
-    //   }
-    // }
-    // console.log('\n  (2) End Loop: Checking if white pegs updated : ')
-    // console.table(feedback)
-
-    // console.log("After SEcret Code Occurences")
-    // console.log(occurencess)
-
-
-
-
-    //*********************************************************************** */
-
-    // Test case: 
-    // secretcodeArr = [1,1,1,2,3]
-    // secretcodeHash = {1:3, 2:1, 3:1}
-    // fourGuessArr = [0,0,0,2,2]
-
-    // // ==
-    // secretcodeHash = { 1: 3, 2: 0, 3: 1 }
-    // fourGuessArr = [0, 0, 0, null, 2]
-
-    // the key 2 in secretcodeHash
-    //   increase white peg
 
     return feedback;
   }
