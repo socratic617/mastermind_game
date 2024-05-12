@@ -31,6 +31,31 @@ class Game {
     // const codeMaker = // will always default Computer
     console.log("Starting Game - startGame()...")
 
+// ***************WHERE YOU LEFT OFF 5/12*********************
+    // Implement a conditional to prevent users from starting the game without filling in input fields.
+
+    // Connect template literals to input fields using variables like 'element = document.querySelector(#id)'.
+
+    // CREATE CODEBREAKER, CODEMAKER, AND DECODER BOARD
+    // Define what happens to the modal when the user clicks "start game".
+
+    // For creating the decoder board, implement a server call to generate the API secret code on the backend using routes and controllers.
+
+    // Dynamically display the number of rows and columns after serving ejs from the server.
+
+    // Set up the board layout with columns and rows.
+
+    // Enable users to create their guess and control when they can input a guess or not (disabling guessing).
+
+    // Implement a conditional to prevent users from over-guessing based on the number of guesses allowed.
+
+    // Determine when the user guesses the correct secret code to end the round using a conditional, using black pegs for the codebreaker to win.
+
+    // If the codemaker's last guess doesn't match the number of columns, display the score and whether the user won or lost.
+
+//**************************************************** */
+
+
     //Number of rounds to loop through for Codemaker and Codebreaker to play 
     for (let i = 0; i < this.rounds; i++) {
       console.log(" Number of rounds - i :  " + i)
@@ -334,7 +359,7 @@ function startGameHandler() {
 }
 
 //querySelector returns an object object.methodNmae
-document.querySelector('#start-game').addEventListener('click', startGameHandler)
+document.querySelector('#startGameBtn').addEventListener('click', startGameHandler)
 
 /* *******************************************************************************
 * TEST: GAME LOGIC OUTSIDE OF ROUND CLASS (Unit Tests)
@@ -378,7 +403,7 @@ let min = 0
 let max = 7
 
 
-testRoundLogic(numsColumns, numsRow, guess, guessRow, min, max)
+// testRoundLogic(numsColumns, numsRow, guess, guessRow, min, max)
 
 
 // /* ******************************************************************************
