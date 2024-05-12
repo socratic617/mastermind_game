@@ -10,7 +10,89 @@
   </head>
 
   <body>
+    <div class="flex center">
+      <!-- Main modal -->
+      <div id="crud-modal" tabindex="-1" aria-hidden="true"
+        class=" overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50  w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative p-4 w-full max-w-md max-h-full">
+          <!-- Modal content -->
+          <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="text-center p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+                Welcome to Mastermind Game! 
+              </h3>
+              <h4> 
+                Select your preferences
+              </h4>
+              <div class="flex items-center justify-center h-full">
+                <img src="imgs\jigsaw.gif" alt="">
+              </div>
 
+            </div>
+
+            <!-- Modal body -->
+            <form class="p-4 md:p-5">
+              <div class="grid gap-4 mb-4 grid-cols-2">
+
+                <!-- Player Mode Section -->
+                <div class="text-center col-span-2 lg:col-span-1">
+                  <label for="playerMode">Player Mode : </label>
+                  <select name="playerMode" id="playerMode">
+                    <option default id="singlePlayer" value="singlePlayer">Single Player</option>
+                    <option id="multiPlayer" value="multiPlayer">Multi-Player</option>
+                  </select>
+                </div>
+
+                <!-- Customize Difficulty: Number of Rounds Section -->
+                <div class="col-span-2">
+                  <label for="roundsInput" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-center">Customize your Difficulty</label>
+                  <input type="Number" name="roundsInput" id="roundsInput"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="Number of Rounds" required>
+                </div>
+
+                <!-- Number of Guesses Per Round Section -->
+                <div class="col-span-2">
+                  <label for="guessesInput" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-center">Number of Guesses Per Round</label>
+                  <input type="Number" name="guessesInput" id="guessesInput"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    placeholder="Number of Guesses" required>
+                </div>
+                
+                <!-- Input field to set the maximum number for the range -->
+                <div class="text-center col-span-2 lg:col-span-1">
+                  <label for="maxRange" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose Max Number for Range</label>
+                  <input min="1" max="15" name="maxRange" id="maxRange" type="number" required
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Set Max Number">
+                  </input>
+                </div>
+
+                <!-- Input field to set the maximum time limit per turn -->
+                <div class="text-center col-span-2 lg:col-span-1">
+                  <label for="maxTime" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose Max Time Per Turn</label>
+                  <input min="5" max="30" name="maxTime" id="maxTime" type="number" required
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Set Time Limit">
+                  </input>
+                </div>
+
+              </div>
+
+              <!-- Button to Start Game -->
+              <div class="text-center pt-2">
+                <button type="submit" id="startGameBtn" class="justify-center inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                  Start Game
+                </button>
+              </div>
+              
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+<!-- 
     <h1> Mastermind Game</h1>
     <h2>
       player 1: <img src="imgs/playerOne.gif" alt="Player 1">
@@ -50,7 +132,7 @@
         <button id="start-game">Start Game</button> 
       </div>
 
-    </main>
+    </main> -->
 
     <script src="js/main.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
