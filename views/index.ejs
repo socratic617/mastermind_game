@@ -10,7 +10,8 @@
   </head>
 
   <body>
-    <div class="flex center">
+
+    <div class="" id="modal-container">
       <!-- Main modal -->
       <div id="crud-modal" tabindex="-1" aria-hidden="true"
         class=" overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50  w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -37,42 +38,42 @@
 
                 <!-- Player Mode Section -->
                 <div class="text-center col-span-2 lg:col-span-1">
-                  <label for="playerMode">Player Mode : </label>
-                  <select name="playerMode" id="playerMode">
-                    <option default id="singlePlayer" value="singlePlayer">Single Player</option>
-                    <option id="multiPlayer" value="multiPlayer">Multi-Player</option>
+                  <label for="player-mode">Player Mode : </label>
+                  <select name="player-mode" id="player-mode">
+                    <option default id="single-player" value="single-player">Single Player</option>
+                    <option id="multi-player" value="multi-player">Multi-Player</option>
                   </select>
                 </div>
 
                 <!-- Customize Difficulty: Number of Rounds Section -->
                 <div class="col-span-2">
-                  <label for="roundsInput" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-center">Customize your Difficulty</label>
-                  <input type="Number" name="roundsInput" id="roundsInput"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  <label for="rounds-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-center">Customize your Difficulty</label>
+                  <input type="number" name="rounds-input" id="rounds-input" min="1" max="10"
+                    class="input-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Number of Rounds" required>
                 </div>
 
                 <!-- Number of Guesses Per Round Section -->
                 <div class="col-span-2">
-                  <label for="guessesInput" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-center">Number of Guesses Per Round</label>
-                  <input type="Number" name="guessesInput" id="guessesInput"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  <label for="guesses-input" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-center">Number of Guesses Per Round</label>
+                  <input type="number" name="guesses-input" id="guesses-input" min="1" max="15"
+                    class="input-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     placeholder="Number of Guesses" required>
                 </div>
                 
                 <!-- Input field to set the maximum number for the range -->
                 <div class="text-center col-span-2 lg:col-span-1">
-                  <label for="maxRange" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose Max Number for Range</label>
-                  <input min="1" max="15" name="maxRange" id="maxRange" type="number" required
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Set Max Number">
+                  <label for="max-range" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose Max Number for Range</label>
+                  <input min="1" max="15" name="max-range" id="max-range" type="number" required
+                    class="input-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Set Max Number">
                   </input>
                 </div>
 
                 <!-- Input field to set the maximum time limit per turn -->
                 <div class="text-center col-span-2 lg:col-span-1">
-                  <label for="maxTime" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose Max Time Per Turn</label>
-                  <input min="5" max="30" name="maxTime" id="maxTime" type="number" required
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Set Time Limit">
+                  <label for="max-time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choose Max Time Per Turn</label>
+                  <input min="5" max="30" name="max-time" id="max-time" type="number" required
+                    class="input-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Set Time Limit">
                   </input>
                 </div>
 
@@ -80,7 +81,7 @@
 
               <!-- Button to Start Game -->
               <div class="text-center pt-2">
-                <button type="submit" id="startGameBtn" class="justify-center inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <button type="submit" id="start-game-btn" class="justify-center inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                   Start Game
                 </button>
               </div>
@@ -89,6 +90,12 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Decoder Board -->
+    <div id="decoder-board" class="hidden">
+      <!-- Add your decoder board HTML here -->
+      <p>HELLO YOU SUCCESSFULLY HID THE MODAL AND DISPLAYED THE DECODER BOARD</p>
     </div>
     
 
