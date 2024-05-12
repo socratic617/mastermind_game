@@ -16,7 +16,7 @@ class Game {
     this.colorPegs = [1, 2, 3, 4];
     this.numsColumns = 4;// todo user input
     this.numsRow = 10;// codeBreaker 10rows for guesses
-    this.decoderBoard = new DecoderBoard(this.numsColumns, this.numsRow);// Use all pieces for Game from Board
+    // this.decoderBoard = new DecoderBoard(this.numsColumns, this.numsRow);// Use all pieces for Game from Board
     this.rounds = 1; //hardcoded 1 round ***** FIX LOOPING THROUGH ROUND AFTER EVERY START GAME *** - Displays rounds all at once, i dont want that , i want to ddisplay it as i finish each round 
     this.score = {
       CodeBreaker: 0,
@@ -30,13 +30,14 @@ class Game {
     // const codeBreaker = //will always be user
     // const codeMaker = // will always default Computer
     console.log("Starting Game - startGame()...")
-
+ 
 // ***************WHERE YOU LEFT OFF 5/12*********************
     // Implement a conditional to prevent users from starting the game without filling in input fields.
 
     // Connect template literals to input fields using variables like 'element = document.querySelector(#id)'.
-
+    
     // CREATE CODEBREAKER, CODEMAKER, AND DECODER BOARD
+    
     // Define what happens to the modal when the user clicks "start game".
 
     // For creating the decoder board, implement a server call to generate the API secret code on the backend using routes and controllers.
@@ -57,12 +58,12 @@ class Game {
 
 
     //Number of rounds to loop through for Codemaker and Codebreaker to play 
-    for (let i = 0; i < this.rounds; i++) {
-      console.log(" Number of rounds - i :  " + i)
-      let codeMaker = new CodeMaker();
-      let codeBreaker = new CodeBreaker();
-      let currentRound = new Round(this.colorPegs, this.numsColumns, this.numsRow, this.codeBreaker, this.codeMaker, this.decoderBoard);
-    }
+    // for (let i = 0; i < this.rounds; i++) {
+    //   console.log(" Number of rounds - i :  " + i)
+    //   let codeMaker = new CodeMaker();
+    //   let codeBreaker = new CodeBreaker();
+    //   let currentRound = new Round(this.colorPegs, this.numsColumns, this.numsRow, this.codeBreaker, this.codeMaker, this.decoderBoard);
+    // }
   }
 
   //---------------------------------------------------
@@ -352,14 +353,54 @@ class CodeMaker {
 // this is an event handler that will trigger a new game 
 function startGameHandler() {
 
+  console.log("\n_________________________\n ")
+  console.log("Inside startGameHandler Function")
+
+  // Purpose: checking if input fields filled out
+  const inputFields = document.querySelectorAll('.input-field');
+  console.log("input-fields : ", inputFields)
+
+  // Check if any input field is empty
+  function areFieldsFilled() {
+    for (let i = 0; i < inputFields.length; i++) {
+      console.log(`i=${i}  input field=${inputFields[i]} value=${inputFields[i].value}`)
+      if (inputFields[i].value === '') {
+        return false;
+      }
+    }
+    return true;
+  }
+  if (!areFieldsFilled()) {
+    console.error('Please fill out all fields before starting game')
+    return
+  }
+
+  // Hide the modal
+  const modalContainer = document.getElementById('modal-container');
+  modalContainer.classList.add('hidden');
+  console.log('modal container: ', modalContainer)
+
+  // Display the decoder board
+  const decoderBoard = document.getElementById('decoder-board');
+  decoderBoard.classList.remove('hidden');
+  console.log('decoderBoard: ', decoderBoard)
+
   // CREATE AN INSTANCE OF THE GAME FOR UI
   let gameObject = new Game();
+
+  // Start the game
   gameObject.startGame();
-  console.log(" After Clicking Start Game- Game has started : " + gameObject)
+
+  // Loggining confirmation
+  console.log("Game has started after clicking Start Game : " + gameObject)
 }
 
 //querySelector returns an object object.methodNmae
-document.querySelector('#startGameBtn').addEventListener('click', startGameHandler)
+document.querySelector('#start-game-btn').addEventListener('click', startGameHandler)
+
+
+
+
 
 /* *******************************************************************************
 * TEST: GAME LOGIC OUTSIDE OF ROUND CLASS (Unit Tests)
