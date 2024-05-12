@@ -385,9 +385,16 @@ function startGameHandler() {
   decoderBoard.classList.remove('hidden');
   console.log('decoderBoard: ', decoderBoard)
 
+  //creating users custom game variables to pass in new Game instance 
+  let playerMode = document.querySelector('#player-mode').value === 'single-player' ? 'single-player' : 'multi-player';
+  let roundsToPlay = document.querySelector('#rounds-input')
+  let numberGuesses = document.querySelector('#guesses-input')
+  let maxRange = document.querySelector('#max-range')
+  let numberColumns = document.querySelector('#max-columns')
+  let timeLimitPerTurn = document.querySelector('#max-time')
   // CREATE AN INSTANCE OF THE GAME FOR UI
-  let gameObject = new Game();
-
+  let gameObject = new Game(maxRange, playerMode, numberColumns, numberGuesses, roundsToPlay, timeLimitPerTurn);
+ 
   // Start the game
   gameObject.startGame();
 
