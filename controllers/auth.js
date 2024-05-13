@@ -4,7 +4,7 @@ const User = require("../models/User");
 
 exports.getLogin = (req, res) => {
   if (req.user) {
-    return res.redirect("/game");
+    return res.redirect("/game-config");
   }
   res.render("login", {
     title: "Login",
@@ -39,7 +39,7 @@ exports.postLogin = (req, res, next) => {
         return next(err);
       }
       req.flash("success", { msg: "Success! You are logged in." });
-      res.redirect(req.session.returnTo || "/game");
+      res.redirect(req.session.returnTo || "/game-config");
     });
   })(req, res, next);
 };
@@ -62,7 +62,7 @@ exports.getSignup = (req, res) => {
   console.log("\t req.body : ", req.body)
   // console.log("\t res : ", res)
   if (req.user) {
-    return res.redirect("/game");
+    return res.redirect("/game-config");
   }
   res.render("signup", {
     title: "Create Account",
@@ -125,7 +125,7 @@ exports.postSignup = (req, res, next) => {
           if (err) {
             return next(err);
           }
-          res.redirect("/game");
+          res.redirect("/game-config");
         });
       });
     }
