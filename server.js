@@ -9,7 +9,7 @@ const flash = require("express-flash");// sends notifications that a message exi
 const logger = require("morgan");//connecting diff code together
 const connectDB = require("./config/database");//load database
 const mainRoutes = require("./routes/main");//then connect my routes
-
+const gameRoutes = require("./routes/game");
 //Use .env file in config folder , so my secrets dont go up w password to gtihub
 require("dotenv").config({ path: "./config/.env" });
 
@@ -53,7 +53,8 @@ app.use(passport.session());
 app.use(flash());
 
 //Setup Routes For Which The Server Is Listening
-app.use("/", mainRoutes); 
+app.use("/", mainRoutes); //login, sign up
+app.use("/game", gameRoutes); // create game, new game, get game
 
 //Server Running
 app.listen(process.env.PORT, () => {
