@@ -4,7 +4,7 @@ const User = require("../models/User");
 
 exports.getLogin = (req, res) => {
   if (req.user) {
-    return res.redirect("/profile");
+    return res.redirect("/game");
   }
   res.render("login", {
     title: "Login",
@@ -39,7 +39,7 @@ exports.postLogin = (req, res, next) => {
         return next(err);
       }
       req.flash("success", { msg: "Success! You are logged in." });
-      res.redirect(req.session.returnTo || "/profile");
+      res.redirect(req.session.returnTo || "/game");
     });
   })(req, res, next);
 };
@@ -57,8 +57,12 @@ exports.logout = (req, res) => {
 };
 
 exports.getSignup = (req, res) => {
+  console.log("\n\n_____________________ Inside post signup function ")
+  console.log("Below will be my 3 params im passing  : ")
+  console.log("\t req.body : ", req.body)
+  // console.log("\t res : ", res)
   if (req.user) {
-    return res.redirect("/profile");
+    return res.redirect("/game");
   }
   res.render("signup", {
     title: "Create Account",
@@ -66,20 +70,30 @@ exports.getSignup = (req, res) => {
 };
 
 exports.postSignup = (req, res, next) => {
+  console.log("\n\n_____________________ Inside post signup function ")
+  console.log("Below will be my 3 params im passing  : ")
+  console.log("\t req.body : ", req.body)
+  // console.log("\t res : ", res)
+  // console.log("\t next : ", next)
+ 
+
   const validationErrors = [];
+
   if (!validator.isEmail(req.body.email))
     validationErrors.push({ msg: "Please enter a valid email address." });
+
   if (!validator.isLength(req.body.password, { min: 8 }))
-    validationErrors.push({
-      msg: "Password must be at least 8 characters long",
-    });
+    validationErrors.push({msg: "Password must be at least 8 characters long"});
+
   if (req.body.password !== req.body.confirmPassword)
     validationErrors.push({ msg: "Passwords do not match" });
 
   if (validationErrors.length) {
     req.flash("errors", validationErrors);
+    console.log("Validation Error: ", validationErrors )
     return res.redirect("../signup");
   }
+  
   req.body.email = validator.normalizeEmail(req.body.email, {
     gmail_remove_dots: false,
   });
@@ -90,6 +104,7 @@ exports.postSignup = (req, res, next) => {
     password: req.body.password,
   });
 
+  console.log("user :", user)
   User.findOne(
     { $or: [{ email: req.body.email }, { userName: req.body.userName }] },
     (err, existingUser) => {
@@ -110,7 +125,7 @@ exports.postSignup = (req, res, next) => {
           if (err) {
             return next(err);
           }
-          res.redirect("/profile");
+          res.redirect("/game");
         });
       });
     }
