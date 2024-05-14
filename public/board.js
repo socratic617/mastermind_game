@@ -1,7 +1,6 @@
 class DecoderBoard {
   constructor(numsColumns, numsRow) {
-    console.log("\n\n\n==============================================")
-    console.log("Creating Decoder Board object")
+  
     this.guessingSlots = [];
     this.feedbackSlots = [];
 
@@ -18,30 +17,18 @@ class DecoderBoard {
    * @params guessRow keeps track of the row the guess is being made on
    * */
   addCodebreakerGuess(guess, guessRow) {
-    console.log("\n________________________________\nInside addCodebreakerGuess()");
-    console.log(`\n________________________________\n${guessRow} `);
-
-    console.log(`this.guessingSlots[guessRow]: ${this.guessingSlots[guessRow]}   guess:${guess}`)
 
     // Validate the guess length
     if (this.guessingSlots[guessRow].length !== guess.length) {
       console.error(`Please make sure you have provided exactly ${this.guessingSlots[guessRow].length} guesses to fill in guessing slot.`);
       return null;
     }
-    console.log("IM HEREE INSIDE ADD CODE BREAKER GUESS")
+    
     // Updating the guessing slot with the guess
     this.guessingSlots[guessRow] = guess;
     for(let i = 0; i < guess.length; i++){
       document.querySelector('#col-' + guessRow + i).innerText = guess[i]
     }
-  
-    
- 
-    //query selector to update ui
-    //all ui stuff broken up 
-    // creating ids and rows and columns 
-    // use a variable to track guess row 
-
 
     console.log("Update Guessing Slots : ");
     console.table(this.guessingSlots)
@@ -52,13 +39,13 @@ class DecoderBoard {
   * @params feedbackRow keeps track of the row the feedback row is being made on
   * */
   addCodemakerFeedback(feedback, guessRow) {
-    console.log("\n___________________________________\nInside addCodemakerFeedback()");
 
     // Updating the feedback to the board
     this.feedbackSlots[guessRow] = feedback
-    console.log("Tests for updating feedBack slots : ");
-    console.table(this.feedbackSlots)
     document.querySelector('#feed-' + guessRow ).innerText = `W: ${feedback.whitePegs} B: ${feedback.blackPegs}`
+
+    console.log("Update Guessing Slots : ");
+    console.table(this.feedbackSlots)
   }
 
   /*Goal: Resets everything on the board to start a new round
@@ -66,7 +53,7 @@ class DecoderBoard {
   * @params guessRow keeps track of the row the guess is being made on
   * */
   setBoard(numsColumns, numsRow) {
-    console.log("DecoderBoard.setBoard()");
+   
     this.guessingSlots = []; //use colorpegs to create guessingSlots
     this.feedbackSlots = [];  //use colorpegs to create feedbackSlots
 
@@ -78,6 +65,13 @@ class DecoderBoard {
 
       // Initialize guessingSlots for each row with null values for each column
       this.guessingSlots.push(Array(numsColumns).fill(null))
+
+      for (let j = 0; j < numsColumns; j++) {
+        document.querySelector('#col-' + i + j).innerText = '🔘'
+        
+      }
+
+      document.querySelector('#feed-' + i).innerText = 'EMPTY'
     }
   }
 

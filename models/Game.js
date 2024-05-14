@@ -25,13 +25,10 @@ const GameSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  'player-one-score': {
-    type: Number,
+  'score': {
+    type: Object,
   },
-  'player-two-score': {
-    type: Number,
-  },
-  'winner': {
+  'user-name': {
     type: String,
   },
   user: {
