@@ -55,7 +55,7 @@ Welcome to the [**Mastermind Game**](https://mastermindgame-production.up.railwa
    - Create a `.env` file in the root directory of the project.
    - Add the following line to the `.env` file:
      ```env
-     DB_STRING=mongodb://localhost:27017/mastermind_game
+     DB_STRING=mongodb://localhost:2000/mastermind_game
      ```
 
 5. **Run Your Application**:
