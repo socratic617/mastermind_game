@@ -11,6 +11,12 @@ Welcome to the Mastermind Game, a user-friendly application that challenges Code
 - 🏆 **Score Display**: Keep track of scores for both the Codemaker and the Codebreaker to enhance competition and engagement.
 - 🔐 **User Authentication**: Register for an account, log in, and log out to access and save your game progress securely.
 
+## 🚀 Tech Stack
+- MongoDB
+- Node
+- Javascript
+- EJS
+- FlowBite
 
 ## 🚀 Getting Started
 
