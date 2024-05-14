@@ -2,11 +2,11 @@ import CodeBreaker from './codebreaker.js'
 import CodeMaker from './codemaker.js'
 import DecoderBoard from './board.js'
 /*------------------------------------------------------------------------------------
-*  This is an object that is used to manage the mastermind decoder board.
-*
-* GENERAL TEMPLATE DOWN WITH ATTRIBUTES, ACTIONS (FUNCTIONS) then fill in the code 
-* Call the functions with console.logs to see if the functions can work 
-* Goal: build out the game logic first then think about leadership board, ui, server etc...
+*  TGAME OBJECT
+* The game object is used to control the flow of the game. It was created dynamcially
+* so the user can cnofig their game to their liking. Configurations include 
+* setting a number of rounds and difficulty of the game.
+* ENHANCEMENTS: Work on multiplayer and time limit game.
  --------------------------------------------------------------------------------- */
 
 class Game {
@@ -27,40 +27,40 @@ class Game {
     this.codeBreaker = new CodeBreaker();
   }
 
+
+  /*
+  *  Used when the page is loaded to start a new game round. We also ensure the submit guess is enabled as
+  * soon as the new round nb==button appears. 
+  * */
   startGame() {
-    
+
     this.startRound();
     this.gamePlay();
 
   
-    // Binding 'this' to ensure that the startRound function maintains its context when used as an event listener
+    // start a new round and enable input guesses every round
     document.querySelector('#start-round').addEventListener('click', () =>{
       document.querySelector('#submit-guesses').disabled = false;
       this.startRound()
     })
   }
 
-  setUpRound() {
-    console.log('set up round: ')
-    //Do the following for all rounds 
-    this.currentRow = 0
-    document.querySelector('#new-round').hidden = true; //hide button for new round
-    document.querySelector('#submit-guesses').disabled = false;
-    this.decoderBoard = new DecoderBoard(this.numsColumns, this.numsRow);
-
-    
-  }
-
+  /*
+  *  HNolds the majority of the game logic which is stored in an event handler when the user submits there guess.
+  * */
   gamePlay() {
     document.querySelector('#submit-guesses').addEventListener('click', () => {
 
-      console.log('in here')
+      //Codebreaker submits their guess
       const guess = this.codeBreaker.generateGuess();
 
+      //Add the guess to the decoder board
       this.decoderBoard.addCodebreakerGuess(guess, this.currentRow);
 
+      //Have the codemaker genereate feedback for the guess
       const feedback = this.codeMaker.generateFeedback(guess);
 
+      //add feedback to decoder board
       this.decoderBoard.addCodemakerFeedback(feedback, this.currentRow);
 
       //Handles who wins or continue making guesses
@@ -81,34 +81,40 @@ class Game {
     });
   }
 
+  /*
+  *  Used to set up the round with all the necessart resets.
+  * */
   async startRound() {
 
-    this.setUpRound()
-
+    this.currentRow = 0
+    document.querySelector('#new-round').hidden = true;
+    document.querySelector('#submit-guesses').disabled = false;
+    this.decoderBoard = new DecoderBoard(this.numsColumns, this.numsRow);
     await this.codeMaker.generateSecretCode(this.numsColumns, this.maxRange);
-    console.log('\n\n\n\n==============out here')
     
-  
   }
 
+  /*
+  *  Update score in UI
+  * */
   updateScoreboard() {
     const scoreboardElement = document.querySelector('#scoreboard');
     scoreboardElement.innerText = `CodeBreaker: ${this.score.CodeBreaker}, CodeMaker: ${this.score.CodeMaker}`;
   }
 
+  /*
+  *  Handles when the round ends including preventing the user from continuing to submit guesses.
+  * */
   endRound() {
     document.querySelector('#submit-guesses').disabled = true
     // Update scoreboard
     this.updateScoreboard();
     this.currentRound++
-    console.log('currentRounnd: ' + this.currentRound);
-    console.log('rounds: ' + this.rounds);
+    
     if (this.currentRound <= this.rounds){
-      console.log('new round')
+     
       document.querySelector('#new-round').hidden = false //show button for new round
     }else {
-      console.log('i wonder....what to do when there are no more rounds')
-      //TODO make request to server to submit results
       this.submitResults()
     }
   }
