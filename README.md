@@ -87,6 +87,10 @@ This guide will help you get started with the Mastermind Game application. Follo
 
 ![GAMEDESIGN drawio](https://github.com/socratic617/mastermind_game/assets/144078314/8d91a8b1-42fb-4b47-9d89-04aa70a6eabf)
 
+## 📅 Milestones Breakdown (Trello Board)
+
+![trello](https://github.com/socratic617/mastermind_game/assets/144078314/7a9e9ec3-38d9-48a9-b93b-52c3c1e38ceb)
+
 ## 🧠 Thought Process and Creative Extensions
 My approach to building the Mastermind game began with immersing myself in the physical version, playing it, and understanding its rules. This initial experience helped me map out the game design, identifying key components like the Codemaker, Codebreaker, color pegs (adapted to numbers in my version), and the decoder board.
 
