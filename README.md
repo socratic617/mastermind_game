@@ -37,7 +37,16 @@ Welcome to the [**Mastermind Game**](https://mastermindgame-production.up.railwa
    npm start
 5. Access the app in your web browser at http://localhost:2000.
 
+**NOTE You must have a mongoDB cluster and set up and placed in your .env file called DB_STRING. 
+
 This guide will help you get started with the Mastermind Game application. Follow these steps to clone the repository, install dependencies, and run the app locally on your machine. Once the app is running, you can access it at http://localhost:2000 to start playing Mastermind!
+
+### How To Play
+- login/Sign in to play the game
+- Configure the game to your preferred settings (game mode and timer are future extensions)
+- You can insert your guesses at the bottom. You will receive feedback on the feedback column and messages at the bottom
+- Once a round is done, if there are multiple rounds, users will have the ability to start the next round
+- When all rounds have been played final score will be stored(leadership board will be created as a future enhancement)
 
 ## 🗂️ (Relevant) File Structure
 ```bash
@@ -100,9 +109,14 @@ Once I had a clear understanding of the game's mechanics, I delved into creating
 
 To organize my tasks effectively, I utilized a Trello board, breaking down the project into manageable weekly milestones. I started by building a basic UI and implementing core game logic, rigorously testing each component before proceeding.
 
-Given the complexity of the game logic, I focused heavily on object-oriented programming (OOP) principles, ensuring that the code was modular, reusable, and maintainable. This approach allowed me to create a robust foundation for the game's backend and logic before refining the user interface.
+Given the complexity of the game logic, I focused heavily on object-oriented programming (OOP) principles, ensuring that the code was modular, reusable, and maintainable. This approach allowed me to create a robust foundation for the game's backend and logic before refining the user interface. 
 
-For the UI design, I used Flowbite CSS, integrating it with my game logic and backend functionalities. The most challenging aspect was implementing dynamic feedback to users and making the game configuration adaptable.
+For the UI design, I used Flowbite CSS, integrating it with my game logic and backend functionalities. The most challenging aspect was implementing dynamic feedback to users and making the game configuration adaptable. Originally I was planning on using React but wanted to ensure I could show more backend functionality using something lke EJS and since the instructions were to not focus too much on the front end piece.
 
-As creative extensions, I attempted to incorporate multiplayer functionality and a leaderboard. Although these features were not fully implemented, they represent ongoing efforts to enhance the game's scope and engagement.
+Creative Extensions:
+- I attempted to incorporate multiplayer functionality and a leaderboard. Although these features were not fully implemented, they represent ongoing efforts to enhance the game's scope and engagement.
+- I made my game config very dynamic to make it easy to the user to customize the game to their liking. I want to add more game config features in the future
+- I want to add unit testing to my backend to test mocking the data and my endpoints using jest.
+
+
 
