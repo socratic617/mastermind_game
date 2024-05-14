@@ -1,10 +1,10 @@
 import Game from './game.js';
 
 /* ******************************************************************************* 
-*Creating Game
+* This is used to generate a new 
 ************************************************************************************/
 
-// this is an event handler that will trigger a new game 
+// on page load will trigger a new game
 function startGameHandler() {
 
   //creating users custom game variables to pass in new Game instance
@@ -16,7 +16,7 @@ function startGameHandler() {
   let timeLimitPerTurn = parseInt(document.querySelector('#max-time').innerText)
  
 
-  // CREATE AN INSTANCE OF THE GAME FOR UI
+  // Create a new game instance
   let gameObject = new Game(
     maxRange, 
     numberColumns, 

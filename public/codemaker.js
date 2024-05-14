@@ -1,17 +1,28 @@
+/*------------------------------------------------------------------------------------
+*  CODEMAKER OBJECT
+* Represents the CPU and is in charge of creating the guesses
+ --------------------------------------------------------------------------------- */
 class CodeMaker {
   constructor() {
     this.secretCode = [];
   }
 
 
-  // Async function to generate 4 random numbers from 0 to 7 using RANDOM.ORG's Integer Generator API
+  //
+  /*
+  * Async function to generate 4 random numbers from 0 to 7 using RANDOM ORG's
+  * Integer Generator API. Dyanmically created to allow the user to  configurate it through the game config page.
+  * @params numsColumns number of numbers to return
+  * @params maxRange integer range to select the numbers from
+  * */
   async generateSecretCode(numsColumns, maxRange) {
 
     const urlRandomNumGenerator = `https://www.random.org/integers/?num=${numsColumns}&min=0&max=${maxRange}&col=1&base=10&format=plain&rnd=new`;
 
     try {
    
-      const response = await fetch(urlRandomNumGenerator) // go get api
+      // make api request
+      const response = await fetch(urlRandomNumGenerator) 
       const responseText = await response.text();
 
       // Trim the extra whitsepace/new lines then Split the responseText by '\n' to get an array of strings
@@ -28,6 +39,10 @@ class CodeMaker {
 
   }
 
+  // async function fetchSecretCode(numsColumns, maxRange) {
+  
+  // }
+
   // Return the secret code 
   getSecretCode() {
     return this.secretCode;
@@ -38,10 +53,6 @@ class CodeMaker {
   * @params feedbackRow keeps track of the row the guess is being made on
   * */
   generateFeedback(codebreakerFourGuesses) {
-
-    console.log(`\n\n_____________________\n`)
-    console.log("GUESS : ", codebreakerFourGuesses)
-    console.log("SECRETCODE : ", this.secretCode)
 
     if (codebreakerFourGuesses.length !== this.secretCode.length) {
       console.error("Please make sure you have provided exactly 4 guesses to fill in guessingSlots.");

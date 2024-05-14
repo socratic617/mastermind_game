@@ -12,6 +12,7 @@ module.exports = {
       console.log(err);
     }
   },
+
   createGame: async (req, res) => {
     try {
 
@@ -31,14 +32,7 @@ module.exports = {
       console.log(err);
     }
   },
-  // getGame: async (req, res) => {
-  //   try {
-  //     console.log("Im inside Get Game function : ")
-  //     console.log("req.body : ", req.body)
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // },
+
   submitGame: async (req, res) => {
     try {
       console.log("Im inside Submit Game function : ")
@@ -50,17 +44,6 @@ module.exports = {
 
       // return res.redirect(303,"/game/leadership-board")
       return res.send('Score was submitted!')
-    } catch (err) {
-      console.log(err);
-    }
-  },
-
-  getLeadershipBoard: async (req, res) => {
-    try {
-      console.log("Im inside leadership board function : ")
-      console.log("req.body : ", req.body)
-      console.log("req.user: ", req.user)
-      return res.render("leadership.ejs", { user: req.user })
     } catch (err) {
       console.log(err);
     }

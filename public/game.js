@@ -28,27 +28,33 @@ class Game {
   }
 
   startGame() {
+    
     this.startRound();
+    this.gamePlay();
 
+  
     // Binding 'this' to ensure that the startRound function maintains its context when used as an event listener
-    document.querySelector('#start-round').addEventListener('click', this.startRound.bind(this))
+    document.querySelector('#start-round').addEventListener('click', () =>{
+      document.querySelector('#submit-guesses').disabled = false;
+      this.startRound()
+    })
   }
 
   setUpRound() {
+    console.log('set up round: ')
     //Do the following for all rounds 
     this.currentRow = 0
-    document.querySelector('#new-round').hidden = true //hide button for new round
+    document.querySelector('#new-round').hidden = true; //hide button for new round
+    document.querySelector('#submit-guesses').disabled = false;
     this.decoderBoard = new DecoderBoard(this.numsColumns, this.numsRow);
+
+    
   }
 
-  async startRound() {
-
-    this.setUpRound()
-
-    await this.codeMaker.generateSecretCode(this.numsColumns, this.maxRange);
-
+  gamePlay() {
     document.querySelector('#submit-guesses').addEventListener('click', () => {
 
+      console.log('in here')
       const guess = this.codeBreaker.generateGuess();
 
       this.decoderBoard.addCodebreakerGuess(guess, this.currentRow);
@@ -73,6 +79,16 @@ class Game {
       }
 
     });
+  }
+
+  async startRound() {
+
+    this.setUpRound()
+
+    await this.codeMaker.generateSecretCode(this.numsColumns, this.maxRange);
+    console.log('\n\n\n\n==============out here')
+    
+  
   }
 
   updateScoreboard() {

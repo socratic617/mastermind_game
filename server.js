@@ -2,18 +2,26 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const passport = require("passport");
-const session = require("express-session");// allows me to saty signed in
-const MongoStore = require("connect-mongo")(session);//stored in mongo data base or for your browser to be consistent and stay logged in 
-const methodOverride = require("method-override"); //enables any type of request from the browser for any request
-const flash = require("express-flash");// sends notifications that a message exists
-const logger = require("morgan");//connecting diff code together
-const connectDB = require("./config/database");//load database
-const mainRoutes = require("./routes/main");//then connect my routes
+// allows me to stay signed in
+const session = require("express-session");
+//stored in mongo data base or for your browser to be consistent and stay logged in 
+const MongoStore = require("connect-mongo")(session);
+//enables any type of request from the browser for any request
+const methodOverride = require("method-override"); 
+// sends messages for things like validation errors
+const flash = require("express-flash");
+//connecting diff code together
+const logger = require("morgan");
+//load database
+const connectDB = require("./config/database");
+//then connect my routes
+const mainRoutes = require("./routes/main");
 const gameRoutes = require("./routes/game");
-//Use .env file in config folder , so my secrets dont go up w password to gtihub
+
+//Use .env file in config folder to hold sensitive data
 require("dotenv").config({ path: "./config/.env" });
 
-// Passport config
+// Passport config for auth
 require("./config/passport")(passport);
 
 //Connect To Database
@@ -30,7 +38,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 //Logging
-app.use(logger("dev"));//morgan to llogin
+app.use(logger("dev"));
 
 //Use forms for put / delete
 app.use(methodOverride("_method"));//
@@ -52,8 +60,8 @@ app.use(passport.session());
 //Use flash messages for errors, info, ect...
 app.use(flash());
 
-//Setup Routes For Which The Server Is Listening
-app.use("/", mainRoutes); //login, sign up
+//Setup Routes to direct to the right endpoints
+app.use("/", mainRoutes); //login, sign up, game config
 app.use("/game", gameRoutes); // create game, new game, get game
 
 //Server Running

@@ -70,12 +70,6 @@ exports.getSignup = (req, res) => {
 };
 
 exports.postSignup = (req, res, next) => {
-  console.log("\n\n_____________________ Inside post signup function ")
-  console.log("Below will be my 3 params im passing  : ")
-  console.log("\t req.body : ", req.body)
-  // console.log("\t res : ", res)
-  // console.log("\t next : ", next)
- 
 
   const validationErrors = [];
 
@@ -90,7 +84,6 @@ exports.postSignup = (req, res, next) => {
 
   if (validationErrors.length) {
     req.flash("errors", validationErrors);
-    console.log("Validation Error: ", validationErrors )
     return res.redirect("../signup");
   }
   
