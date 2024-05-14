@@ -117,6 +117,7 @@ Creative Extensions:
 - I attempted to incorporate multiplayer functionality and a leaderboard. Although these features were not fully implemented, they represent ongoing efforts to enhance the game's scope and engagement.
 - I made my game config very dynamic to make it easy to the user to customize the game to their liking. I want to add more game config features in the future
 - I want to add unit testing to my backend to test mocking the data and my endpoints using jest.
+- Add more endpoints to my routers for things like 404 pages to send to the user
 
 
 
