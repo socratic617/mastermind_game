@@ -119,6 +119,7 @@ Used to map out the original idea on how the my different game aspects work toge
 ![ProcessFlowDiagram drawio](https://github.com/socratic617/mastermind_game/assets/144078314/913d8692-59db-4993-bc46-dd39e87d51fa)
 
 ## 🎮 Game Design
+Used to map my objects, their attributes and actions in the game. There were some modifications from the original spec as the game was built
 
 ![GAMEDESIGN drawio](https://github.com/socratic617/mastermind_game/assets/144078314/8d91a8b1-42fb-4b47-9d89-04aa70a6eabf)
 
