@@ -16,6 +16,7 @@ Welcome to the [**Mastermind Game**](https://mastermindgame-production.up.railwa
 ## 🚀 Tech Stack
 - MongoDB
 - Node
+- Express
 - Javascript
 - EJS
 - FlowBite
@@ -37,7 +38,29 @@ Welcome to the [**Mastermind Game**](https://mastermindgame-production.up.railwa
    npm start
 5. Access the app in your web browser at http://localhost:2000.
 
-**NOTE You must have a mongoDB cluster and set up and placed in your .env file called DB_STRING. 
+**NOTE You must have a mongoDB cluster set up and place reference to it in your .env file called DB_STRING. 
+
+## Setting Up Local MongoDB
+
+1. **Install MongoDB**:
+   - Download and install MongoDB from the [MongoDB Download Center](https://www.mongodb.com/try/download/community).
+
+2. **Run MongoDB**:
+   - Start the MongoDB server by running `mongod`.
+
+3. **Create Database**:
+   - Create a new database named `mastermind_game` using MongoDB Compass or the MongoDB shell.
+
+4. **Update `.env` File**:
+   - Create a `.env` file in the root directory of the project.
+   - Add the following line to the `.env` file:
+     ```env
+     DB_STRING=mongodb://localhost:27017/mastermind_game
+     ```
+
+5. **Run Your Application**:
+   - Start your application, which will now use the local MongoDB instance.
+
 
 This guide will help you get started with the Mastermind Game application. Follow these steps to clone the repository, install dependencies, and run the app locally on your machine. Once the app is running, you can access it at http://localhost:2000 to start playing Mastermind!
 
@@ -91,6 +114,7 @@ This guide will help you get started with the Mastermind Game application. Follo
  ┗ 📜server.js
 ```
 ## 🔄 Process Flow Diagram
+Used to map out the original idea on how the my different game aspects work together. 
 
 ![ProcessFlowDiagram drawio](https://github.com/socratic617/mastermind_game/assets/144078314/913d8692-59db-4993-bc46-dd39e87d51fa)
 
