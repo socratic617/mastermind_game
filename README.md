@@ -1,7 +1,9 @@
 # 🕹 Mastermind Game 🎮
 
 ## 👋 Introduction
-Welcome to the Mastermind Game, a user-friendly application that challenges Codebreakers (you) to decrypt the code set by the Codemaker in order to win. This is a full-stack application utilizing the Model-View-Controller (MVC) design pattern, implemented with Node.js for the server-side logic and EJS (Embedded JavaScript) for templating to generate dynamic HTML views. JavaScript, along with OOP principles, is employed to create an engaging and interactive game experience.
+Welcome to the [**Mastermind Game**](https://mastermindgame-production.up.railway.app/), a user-friendly application that challenges Codebreakers (you) to decrypt the code set by the Codemaker in order to win. This is a full-stack application utilizing the Model-View-Controller (MVC) design pattern, implemented with Node.js for the server-side logic and EJS (Embedded JavaScript) for templating to generate dynamic HTML views. JavaScript, along with OOP principles, is employed to create an engaging and interactive game experience.
+
+### Visit the hosted site [here](https://mastermindgame-production.up.railway.app/).
 
 ## ⭐ Features
 - 🎮 **Custom Game Creation**: Customize the game by choosing the number of guesses allowed and the range of numbers to make it more challenging.
