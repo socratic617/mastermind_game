@@ -88,6 +88,8 @@ Once I had a clear understanding of the game's mechanics, I delved into creating
 
 To organize my tasks effectively, I utilized a Trello board, breaking down the project into manageable weekly milestones. I started by building a basic UI and implementing core game logic, rigorously testing each component before proceeding.
 
+Given the complexity of the game logic, I focused heavily on object-oriented programming (OOP) principles, ensuring that the code was modular, reusable, and maintainable. This approach allowed me to create a robust foundation for the game's backend and logic before refining the user interface.
+
 For the UI design, I used Flowbite CSS, integrating it with my game logic and backend functionalities. The most challenging aspect was implementing dynamic feedback to users and making the game configuration adaptable.
 
 As creative extensions, I attempted to incorporate multiplayer functionality and a leaderboard. Although these features were not fully implemented, they represent ongoing efforts to enhance the game's scope and engagement.
