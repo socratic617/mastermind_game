@@ -14,14 +14,22 @@ class Game {
     this.maxRange = maxRange;
     this.numsColumns = numberColumns;
     this.numsRow = numberGuesses;
-    this.playerMode = playerMode;
-    this.rounds = roundsToPlay;
+    this.playerMode = playerMode; //multi-player
+    
     this.currentRound = 1
     this.timeLimitPerTurn = timeLimitPerTurn;
-    this.score = {
-      CodeBreaker: 0,
-      CodeMaker: 0
+
+    this.currentPlayer = 'loggedin-user'
+    //to make it multiplayer we are going to need to change how we do score and double the rounds
+    if (this.playerMode == 'multi-player'){
+      
+      this.score = { 'loggedin-user': 0, 'guest': 0 }
+      this.rounds = roundsToPlay*2;
+    } else{
+      this.score = { CodeBreaker: 0, CodeMaker: 0 }
+      this.rounds = roundsToPlay;
     }
+
 
     this.codeMaker = new CodeMaker();
     this.codeBreaker = new CodeBreaker();
@@ -66,12 +74,22 @@ class Game {
       //Handles who wins or continue making guesses
       if (feedback.blackPegs == this.numsColumns) {
 
-        this.score.CodeBreaker++
+        // increment loggedin user and switch turn which is current player to guest 
+        if (this.currentPlayer =='loggedin-user'){
+          this.score['loggedin-user']++
+        } else {  // increment guest and switch current player to logged in user
+          this.score['guest']++
+        }
+        console.log("this.current player ", this.currentPlayer)
+        console.log("this.score ", this.score)
+   
         this.endRound()
 
       } else if (this.currentRow == this.numsRow - 1) {
+        if (this.playerMode !== 'multi-player'){
+            this.score.CodeMaker++
+        }
 
-        this.score.CodeMaker++
         this.endRound()
 
       } else {
@@ -87,6 +105,7 @@ class Game {
   async startRound() {
 
     this.currentRow = 0
+    document.querySelector('#current-player').innerText = this.currentPlayer;
     document.querySelector('#new-round').hidden = true;
     document.querySelector('#submit-guesses').disabled = false;
     this.decoderBoard = new DecoderBoard(this.numsColumns, this.numsRow);
@@ -99,7 +118,15 @@ class Game {
   * */
   updateScoreboard() {
     const scoreboardElement = document.querySelector('#scoreboard');
-    scoreboardElement.innerText = `CodeBreaker: ${this.score.CodeBreaker}, CodeMaker: ${this.score.CodeMaker}`;
+
+    //TODO CHANGE
+    if(this.playerMode == 'single-player'){
+      scoreboardElement.innerText = `CodeBreaker: ${this.score.CodeBreaker}, CodeMaker: ${this.score.CodeMaker}`;
+    } else {
+      scoreboardElement.innerText =  `Logged in user : ${this.score['loggedin-user']}, Guest: ${this.score['guest']}`
+    }
+    // Current Player Turn: ${this.currentPlayer}
+    // scoreboardElement.innerText = `CodeBreaker: ${this.score.CodeBreaker}, CodeMaker: ${this.score.CodeMaker}`;
   }
 
   /*
@@ -110,6 +137,13 @@ class Game {
     // Update scoreboard
     this.updateScoreboard();
     this.currentRound++
+
+    //ADD CHANGE ADD LOGIC TO SWITHC THE USER IF MULTLI PLAYER
+    if (this.playerMode == "multi-player" && this.currentPlayer == "loggedin-user"){
+      this.currentPlayer = "guest"
+    } else if (this.playerMode == "multi-player" && this.currentPlayer == "guest") {
+      this.currentPlayer = "loggedin-user"
+    }
     
     if (this.currentRound <= this.rounds){
      
@@ -131,21 +165,35 @@ class Game {
       })
     })
     .then(response => {
+
       if (!response.ok) {
         throw new Error('Failed to submit results');
       }
+
       console.log('Results submitted successfully');
-    
-      if (this.score.CodeBreaker > this.score.CodeMaker){
-        document.querySelector('#game-status').innerText = 'GAME OVER!! CODEBREAKER WINS'
-      }
-      else if (this.score.CodeBreaker < this.score.CodeMaker) {
-        document.querySelector('#game-status').innerText = 'GAME OVER!! CODEMAKER WINS'
-      }
-      else {
-        document.querySelector('#game-status').innerText = 'GAME OVER!! ITS A TIE WINS'
-      }
-      
+
+      if(this.playerMode == 'single-player'){
+
+        if (this.score.CodeBreaker > this.score.CodeMaker) {
+          document.querySelector('#game-status').innerText = 'GAME OVER!! CODEBREAKER WINS'
+        }
+        else if (this.score.CodeBreaker < this.score.CodeMaker) {
+          document.querySelector('#game-status').innerText = 'GAME OVER!! CODEMAKER WINS'
+        }
+        else {
+          document.querySelector('#game-status').innerText = 'GAME OVER!! ITS A TIE WINS'
+        } 
+      } else {
+        if (this.score["loggedin-user"] > this.score["guest"]) {
+          document.querySelector('#game-status').innerText = 'GAME OVER!! LOGGED IN USER WINS'
+        }
+        else if (this.score["loggedin-user"] < this.score["guest"]) {
+          document.querySelector('#game-status').innerText = 'GAME OVER!! GUEST WINS'
+        }
+        else {
+          document.querySelector('#game-status').innerText = 'GAME OVER!! ITS A TIE'
+        } 
+      }  
     })    
   }
 }
