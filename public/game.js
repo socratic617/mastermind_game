@@ -71,34 +71,39 @@ class Game {
       //add feedback to decoder board
       this.decoderBoard.addCodemakerFeedback(feedback, this.currentRow);
 
-      //Handles who wins or continue making guesses
-      if (feedback.blackPegs == this.numsColumns) {
-
-        // increment loggedin user and switch turn which is current player to guest 
-        if (this.currentPlayer =='loggedin-user'){
-          this.score['loggedin-user']++
-        } else {  // increment guest and switch current player to logged in user
-          this.score['guest']++
-        }
-        console.log("this.current player ", this.currentPlayer)
-        console.log("this.score ", this.score)
-   
-        this.endRound()
-
-      } else if (this.currentRow == this.numsRow - 1) {
-        if (this.playerMode !== 'multi-player'){
-            this.score.CodeMaker++
-        }
-
-        this.endRound()
-
-      } else {
-        this.currentRow++
-      }
+      this.checkWinner(feedback)
 
     });
   }
 
+  //Check who wins or continue guessing 
+  checkWinner(feedback) {
+    //Handles who wins or continue making guesses
+    if (feedback.blackPegs == this.numsColumns) {
+
+      // increment loggedin user and switch turn which is current player to guest 
+      if (this.currentPlayer == 'loggedin-user') {
+        this.score['loggedin-user']++
+      } else {  // increment guest and switch current player to logged in user
+        this.score['guest']++
+      }
+      console.log("this.current player ", this.currentPlayer)
+      console.log("this.score ", this.score)
+
+      this.endRound()
+
+    } else if (this.currentRow == this.numsRow - 1) {
+
+      if (this.playerMode !== 'multi-player') {
+        this.score.CodeMaker++
+      }
+
+      this.endRound()
+
+    } else {
+      this.currentRow++
+    }
+  }
   /*
   *  Used to set up the round with all the necessart resets.
   * */
@@ -119,14 +124,12 @@ class Game {
   updateScoreboard() {
     const scoreboardElement = document.querySelector('#scoreboard');
 
-    //TODO CHANGE
     if(this.playerMode == 'single-player'){
       scoreboardElement.innerText = `CodeBreaker: ${this.score.CodeBreaker}, CodeMaker: ${this.score.CodeMaker}`;
     } else {
       scoreboardElement.innerText =  `Logged in user : ${this.score['loggedin-user']}, Guest: ${this.score['guest']}`
     }
-    // Current Player Turn: ${this.currentPlayer}
-    // scoreboardElement.innerText = `CodeBreaker: ${this.score.CodeBreaker}, CodeMaker: ${this.score.CodeMaker}`;
+
   }
 
   /*
@@ -172,29 +175,35 @@ class Game {
 
       console.log('Results submitted successfully');
 
-      if(this.playerMode == 'single-player'){
-
-        if (this.score.CodeBreaker > this.score.CodeMaker) {
-          document.querySelector('#game-status').innerText = 'GAME OVER!! CODEBREAKER WINS'
-        }
-        else if (this.score.CodeBreaker < this.score.CodeMaker) {
-          document.querySelector('#game-status').innerText = 'GAME OVER!! CODEMAKER WINS'
-        }
-        else {
-          document.querySelector('#game-status').innerText = 'GAME OVER!! ITS A TIE WINS'
-        } 
-      } else {
-        if (this.score["loggedin-user"] > this.score["guest"]) {
-          document.querySelector('#game-status').innerText = 'GAME OVER!! LOGGED IN USER WINS'
-        }
-        else if (this.score["loggedin-user"] < this.score["guest"]) {
-          document.querySelector('#game-status').innerText = 'GAME OVER!! GUEST WINS'
-        }
-        else {
-          document.querySelector('#game-status').innerText = 'GAME OVER!! ITS A TIE'
-        } 
-      }  
+      //Display who won in single player mode or multi-player mode on UI
+      this.displayUIWinner()
     })    
+  }
+
+  //Display who won in single player mode or multi-player mode on UI
+  displayUIWinner(){
+    if (this.playerMode == 'single-player') {
+
+      if (this.score.CodeBreaker > this.score.CodeMaker) {
+        document.querySelector('#game-status').innerText = 'GAME OVER!! CODEBREAKER WINS'
+      }
+      else if (this.score.CodeBreaker < this.score.CodeMaker) {
+        document.querySelector('#game-status').innerText = 'GAME OVER!! CODEMAKER WINS'
+      }
+      else {
+        document.querySelector('#game-status').innerText = 'GAME OVER!! ITS A TIE WINS'
+      }
+    } else {
+      if (this.score["loggedin-user"] > this.score["guest"]) {
+        document.querySelector('#game-status').innerText = 'GAME OVER!! LOGGED IN USER WINS'
+      }
+      else if (this.score["loggedin-user"] < this.score["guest"]) {
+        document.querySelector('#game-status').innerText = 'GAME OVER!! GUEST WINS'
+      }
+      else {
+        document.querySelector('#game-status').innerText = 'GAME OVER!! ITS A TIE'
+      }
+    } 
   }
 }
 
